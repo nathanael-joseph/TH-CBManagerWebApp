@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicBookLibraryManager", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicBookShared", "ComicBookShared\ComicBookShared.csproj", "{F26DB57E-568D-4645-89D3-4A52B45C3A3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicBookLibraryManagerWebApp", "ComicBookLibraryManagerWebApp\ComicBookLibraryManagerWebApp.csproj", "{AD8394C6-7B7C-46EB-98DA-A69034737BD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F26DB57E-568D-4645-89D3-4A52B45C3A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F26DB57E-568D-4645-89D3-4A52B45C3A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F26DB57E-568D-4645-89D3-4A52B45C3A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8394C6-7B7C-46EB-98DA-A69034737BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8394C6-7B7C-46EB-98DA-A69034737BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8394C6-7B7C-46EB-98DA-A69034737BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8394C6-7B7C-46EB-98DA-A69034737BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
