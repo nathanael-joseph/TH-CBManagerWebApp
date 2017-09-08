@@ -185,6 +185,8 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             //}
         }
 
+
+        //Disposing the _context when the controller is disposed.
         private bool _disposed = false;
         protected override void Dispose(bool disposing)
         {
