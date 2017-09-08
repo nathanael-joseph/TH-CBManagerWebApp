@@ -1,14 +1,10 @@
-﻿using ComicBookShared.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Data.Entity;
-using ComicBookLibraryManagerWebApp.ViewModels;
-using System.Net;
-using System.Data.Entity.Infrastructure;
+﻿using ComicBookLibraryManagerWebApp.ViewModels;
 using ComicBookShared.Data;
+using ComicBookShared.Models;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace ComicBookLibraryManagerWebApp.Controllers
 {
@@ -26,8 +22,6 @@ namespace ComicBookLibraryManagerWebApp.Controllers
 
         public ActionResult Index()
         {
-            // TODO Get the comic books list.
-            // Include the "Series" navigation property.
 
             var comicBooks = _context.ComicBooks
                     .Include(cb => cb.Series)
@@ -45,8 +39,6 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            // TODO Get the comic book.
-            // Include the "Series", "Artists.Artist", and "Artists.Role" navigation properties.
             var comicBook = _context.ComicBooks
                     .Include(cb => cb.Series)
                     .Include(cb => cb.Artists.Select(a => a.Artist))
@@ -70,7 +62,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             var viewModel = new ComicBooksAddViewModel();
 
             // TODO Pass the Context class to the view model "Init" method.
-            viewModel.Init();
+            viewModel.Init(_context);
 
             return View(viewModel);
         }
@@ -93,7 +85,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             }
 
             // TODO Pass the Context class to the view model "Init" method.
-            viewModel.Init();
+            viewModel.Init(_context);
 
             return View(viewModel);
         }
@@ -117,7 +109,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             {
                 ComicBook = comicBook
             };
-            viewModel.Init();
+            viewModel.Init(_context);
 
             return View(viewModel);
         }
@@ -138,7 +130,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 return RedirectToAction("Detail", new { id = comicBook.Id });
             }
 
-            viewModel.Init();
+            viewModel.Init(_context);
 
             return View(viewModel);
         }
