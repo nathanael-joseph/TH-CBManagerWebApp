@@ -184,5 +184,23 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             //    }
             //}
         }
+
+        private bool _disposed = false;
+        protected override void Dispose(bool disposing)
+        {
+            if(_disposed)
+            {
+                return;
+            }
+
+            if(disposing)
+            {
+                _context.Dispose();
+            }
+
+            _disposed = true;
+
+            base.Dispose(disposing);
+        }
     }
 }
