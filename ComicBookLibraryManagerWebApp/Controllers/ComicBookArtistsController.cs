@@ -24,7 +24,6 @@ namespace ComicBookLibraryManagerWebApp.Controllers
 
         public ActionResult Add(int comicBookId)
         {
-            // TODO Get the comic book.
             // Include the "Series" navigation property.
             var comicBook = _context.ComicBooks
                 .Include(cb => cb.Series)
@@ -53,18 +52,27 @@ namespace ComicBookLibraryManagerWebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                // TODO Add the comic book artist.
+                
+                var comicBookArtist = new ComicBookArtist()
+                {
+                    ComicBookId = viewModel.ComicBookId,
+                    ArtistId = viewModel.ArtistId,
+                    RoleId = viewModel.RoleId
+                };
+                _context.ComicBookArtists.Add(comicBookArtist);
+                _context.SaveChanges();
 
                 TempData["Message"] = "Your artist was successfully added!";
 
                 return RedirectToAction("Detail", "ComicBooks", new { id = viewModel.ComicBookId });
             }
-
-            // TODO Prepare the view model for the view.
-            // TODO Get the comic book.
+            
             // Include the "Series" navigation property.
-            viewModel.ComicBook = new ComicBook();
-            // TODO Pass the Context class to the view model "Init" method.
+            viewModel.ComicBook = _context.ComicBooks
+                .Include(ComicBook => ComicBook.Series)
+                .Where(cb => cb.Id == viewModel.ComicBookId)
+                .SingleOrDefault();
+ 
             viewModel.Init(_context);
 
             return View(viewModel);
