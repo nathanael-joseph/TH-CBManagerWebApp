@@ -65,7 +65,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             // Include the "Series" navigation property.
             viewModel.ComicBook = new ComicBook();
             // TODO Pass the Context class to the view model "Init" method.
-            viewModel.Init();
+            viewModel.Init(_context);
 
             return View(viewModel);
         }
