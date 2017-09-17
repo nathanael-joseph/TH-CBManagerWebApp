@@ -72,11 +72,45 @@ namespace ComicBookShared.Data
             _context.SaveChanges();
         }
 
-        public bool ComicBookSeriesHasIssueNumber(ComicBook comicBook)
+        public bool ComicBookSeriesHasIssueNumber(int comicBookId, int seriesId, int issueNumber)
         {
-            return _context.ComicBooks.Any(cb => cb.Id != comicBook.Id &&
-                             cb.SeriesId == comicBook.SeriesId &&
-                             cb.IssueNumber == comicBook.IssueNumber);
+            return _context.ComicBooks.Any(cb => cb.Id != comicBookId &&
+                             cb.SeriesId == seriesId &&
+                             cb.IssueNumber == issueNumber);
+        }
+
+        public void AddComicBookArtist(ComicBookArtist comicBookArtist)
+        {
+            _context.ComicBookArtists.Add(comicBookArtist);
+            _context.SaveChanges();
+        }
+
+        public ComicBookArtist GetComicBookArtist(int id)
+        {
+            return _context.ComicBookArtists
+                .Include(cba => cba.Artist)
+                .Include(cba => cba.Role)
+                .Include(cba => cba.ComicBook.Series)
+                .Where(cba => cba.Id == id)
+                .SingleOrDefault();
+        }
+
+        public void DeleteComicBookArtist(int id)
+        {
+            var comicBookArtist = new ComicBookArtist()
+            {
+                Id = id
+            };
+            _context.Entry(comicBookArtist).State = EntityState.Deleted;
+            _context.SaveChanges();
+        }
+
+        public bool ComicBookHasArtistRoleCombination(int comicBookId, int artistId, int roleId)
+        {
+            return _context.ComicBookArtists
+                    .Any(cba => cba.ComicBookId == comicBookId &&
+                    cba.ArtistId == artistId &&
+                    cba.RoleId == roleId);
         }
 
     }

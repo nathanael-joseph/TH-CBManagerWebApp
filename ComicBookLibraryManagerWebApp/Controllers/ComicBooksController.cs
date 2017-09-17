@@ -153,7 +153,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 ModelState.IsValidField("ComicBook.IssueNumber"))
             {
                 // Then make sure that the provided issue number is unique for the provided series.
-                if (Repository.ComicBookSeriesHasIssueNumber(comicBook))
+                if (Repository.ComicBookSeriesHasIssueNumber(comicBook.Id,comicBook.SeriesId,comicBook.IssueNumber))
                 {
                     ModelState.AddModelError("ComicBook.IssueNumber",
                         "The provided Issue Number has already been entered for the selected Series.");
