@@ -16,11 +16,17 @@ namespace ComicBookLibraryManagerWebApp.Controllers
     /// </summary>
     public class ComicBookArtistsController : BaseController
     {
-       
+        private ComicBooksRepository _comicBooksRepository = null;
+
+        public ComicBookArtistsController()
+        {
+            _comicBooksRepository = new ComicBooksRepository(Context);
+        }
+
         public ActionResult Add(int comicBookId)
         {
             // Include the "Series" navigation property.
-            var comicBook = Repository.GetComicBook(comicBookId);
+            var comicBook = _comicBooksRepository.Get(comicBookId);
 
             if (comicBook == null)
             {
@@ -57,7 +63,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 return RedirectToAction("Detail", "ComicBooks", new { id = viewModel.ComicBookId });
             }
 
-            viewModel.ComicBook = Repository.GetComicBook(viewModel.ComicBookId);
+            viewModel.ComicBook = _comicBooksRepository.Get(viewModel.ComicBookId);
  
             viewModel.Init(Repository);
 
@@ -105,7 +111,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 // Then make sure that this artist and role combination 
                 // doesn't already exist for this comic book.
                 if (
-                    Repository.ComicBookHasArtistRoleCombination(
+                    _comicBooksRepository.ComicBookHasArtistRoleCombination(
                         viewModel.ComicBookId, 
                         viewModel.ArtistId, 
                         viewModel.RoleId)
