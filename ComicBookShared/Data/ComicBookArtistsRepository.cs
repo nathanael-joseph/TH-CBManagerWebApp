@@ -8,39 +8,29 @@ using System.Threading.Tasks;
 
 namespace ComicBookShared.Data
 {
-    public class ComicBookArtistsRepository
+    public class ComicBookArtistsRepository : BaseRepository<ComicBookArtist>
     {
-        private Context _context = null;
 
-        public ComicBookArtistsRepository(Context context)
+        public ComicBookArtistsRepository(Context context) : base(context) { }
+        
+        public override ComicBookArtist Get(int id, bool IncludeRelatedEntities = true)
         {
-            _context = context;
-        }
-
-        public void Add(ComicBookArtist comicBookArtist)
-        {
-            _context.ComicBookArtists.Add(comicBookArtist);
-            _context.SaveChanges();
-        }
-
-        public ComicBookArtist Get(int id)
-        {
-            return _context.ComicBookArtists
-                .Include(cba => cba.Artist)
-                .Include(cba => cba.Role)
-                .Include(cba => cba.ComicBook.Series)
-                .Where(cba => cba.Id == id)
-                .SingleOrDefault();
-        }
-
-        public void Delete(int id)
-        {
-            var comicBookArtist = new ComicBookArtist()
+            var comicBookArtists = Context.ComicBookArtists.AsQueryable();
+            if(IncludeRelatedEntities)
             {
-                Id = id
-            };
-            _context.Entry(comicBookArtist).State = EntityState.Deleted;
-            _context.SaveChanges();
+                comicBookArtists = comicBookArtists
+                    .Include(cba => cba.Artist)
+                    .Include(cba => cba.Role)
+                    .Include(cba => cba.ComicBook.Series);
+            }
+            return   comicBookArtists
+                    .Where(cba => cba.Id == id)
+                    .SingleOrDefault();
+        }
+
+        public override IList<ComicBookArtist> GetList()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ComicBookShared.Models
     /// <summary>
     /// Represents a comic book artist.
     /// </summary>
-    public class ComicBookArtist
+    public class ComicBookArtist : IEntity
     {
         public int Id { get; set; }
         public int ComicBookId { get; set; }

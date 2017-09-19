@@ -10,7 +10,7 @@ namespace ComicBookShared.Models
     /// <summary>
     /// Represents a comic book series.
     /// </summary>
-    public class Series
+    public class Series : IEntity
     {
         public Series()
         {

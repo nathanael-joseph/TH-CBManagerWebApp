@@ -8,26 +8,24 @@ using System.Threading.Tasks;
 
 namespace ComicBookShared.Data
 {
-    public class ComicBooksRepository
+    public class ComicBooksRepository : BaseRepository<ComicBook>
     {
-        private Context _context = null;
-        public ComicBooksRepository(Context context)
-        {
-            _context = context;
-        }
 
-        public IList<ComicBook> GetList()
+        public ComicBooksRepository(Context context) : base(context) { }
+
+
+        public override IList<ComicBook> GetList()
         {
-            return _context.ComicBooks
+            return Context.ComicBooks
                     .Include(cb => cb.Series)
                     .OrderBy(cb => cb.Series.Title)
                     .ThenBy(cb => cb.IssueNumber)
                     .ToList();
         }
 
-        public ComicBook Get(int id, bool includeRelatedEntities = true)
+        public override ComicBook Get(int id, bool includeRelatedEntities = true)
         {
-            var comicBooks = _context.ComicBooks.AsQueryable();
+            var comicBooks = Context.ComicBooks.AsQueryable();
             if (includeRelatedEntities)
             {
                 comicBooks = comicBooks.Include(cb => cb.Series)
@@ -38,35 +36,16 @@ namespace ComicBookShared.Data
                     .SingleOrDefault();
         }
 
-        public void Add(ComicBook comicBook)
-        {
-            _context.ComicBooks.Add(comicBook);
-            _context.SaveChanges();
-        }
-
-        public void Update(ComicBook comicBook)
-        {
-            _context.Entry(comicBook).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
-        public void Delete(int id)
-        {
-            var comicBook = new ComicBook() { Id = id };
-            _context.Entry(comicBook).State = EntityState.Deleted;
-            _context.SaveChanges();
-        }
-
         public bool ComicBookSeriesHasIssueNumber(int comicBookId, int seriesId, int issueNumber)
         {
-            return _context.ComicBooks.Any(cb => cb.Id != comicBookId &&
+            return Context.ComicBooks.Any(cb => cb.Id != comicBookId &&
                              cb.SeriesId == seriesId &&
                              cb.IssueNumber == issueNumber);
         }
 
         public bool ComicBookHasArtistRoleCombination(int comicBookId, int artistId, int roleId)
         {
-            return _context.ComicBookArtists
+            return Context.ComicBookArtists
                     .Any(cba => cba.ComicBookId == comicBookId &&
                     cba.ArtistId == artistId &&
                     cba.RoleId == roleId);

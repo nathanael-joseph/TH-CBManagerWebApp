@@ -10,7 +10,7 @@ namespace ComicBookShared.Models
     /// <summary>
     /// Represents a role.
     /// </summary>
-    public class Role
+    public class Role : IEntity
     {
         public int Id { get; set; }
         [Required, StringLength(50)]
