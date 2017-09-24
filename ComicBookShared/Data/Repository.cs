@@ -31,8 +31,5 @@ namespace ComicBookShared.Data
             return _context.Roles.OrderBy(r => r.Name).ToList();
         }
 
-        
-
-
     }
 }
